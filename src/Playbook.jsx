@@ -1,13 +1,60 @@
 
 import { useState } from "react";
 
+const CopyButton = ({ text }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleCopy}
+      style={{
+        background: copied ? "#4A4E49" : "transparent",
+        border: "1px solid #2E2E2E",
+        borderRadius: "0",
+        padding: "6px 12px",
+        cursor: "pointer",
+        color: copied ? "#D1F0C9" : "#A0A6B2",
+        fontSize: "12px",
+        fontFamily: "'Roboto Mono', monospace",
+        display: "flex",
+        alignItems: "center",
+        gap: "6px",
+        transition: "all 0.2s",
+      }}
+      title={copied ? "Copied!" : "Copy to clipboard"}
+    >
+      {copied ? (
+        <>
+          <span>✓</span>
+          <span>Copied</span>
+        </>
+      ) : (
+        <>
+          <span>📋</span>
+          <span>Copy</span>
+        </>
+      )}
+    </button>
+  );
+};
+
 const phases = [
   {
     id: "prelude",
     icon: "⚡",
     title: "The Prelude",
     subtitle: "Before You Touch a Tool",
-    color: "#e8d5b7",
+    color: "#F5F5F5",
     accent: "#8b5e3c",
   },
   {
@@ -529,16 +576,16 @@ export default function Playbook() {
     <div
       style={{
         minHeight: "100vh",
-        background: "#1a1714",
-        color: "#e8e0d5",
-        fontFamily: "'Georgia', 'Times New Roman', serif",
+        background: "#252629",
+        color: "#F5F5F5",
+        fontFamily: "'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
       }}
     >
       {/* Header */}
       <div
         style={{
-          background: "linear-gradient(135deg, #2a2420 0%, #1a1714 100%)",
-          borderBottom: "1px solid #3a3530",
+          background: "#2E2F33",
+          borderBottom: "1px solid #2E2E2E",
           padding: "28px 24px 20px",
           textAlign: "center",
         }}
@@ -548,9 +595,9 @@ export default function Playbook() {
             fontSize: "11px",
             letterSpacing: "4px",
             textTransform: "uppercase",
-            color: "#8b7355",
+            color: "#A0A6B2",
             marginBottom: "8px",
-            fontFamily: "monospace",
+            fontFamily: "'Roboto Mono', monospace",
           }}
         >
           CMR Services Playbook
@@ -558,20 +605,19 @@ export default function Playbook() {
         <h1
           style={{
             fontSize: "28px",
-            fontWeight: "normal",
-            color: "#e8d5b7",
+            fontWeight: "500",
+            color: "#F5F5F5",
             margin: "0 0 6px",
-            letterSpacing: "-0.5px",
           }}
         >
           Idea → Production
         </h1>
         <p
           style={{
-            color: "#8b7355",
+            color: "#A0A6B2",
             fontSize: "13px",
             margin: 0,
-            fontStyle: "italic",
+            fontWeight: "normal",
           }}
         >
           The autonomous build playbook for Claude + Pencil.dev + Railway + Supabase
@@ -585,8 +631,8 @@ export default function Playbook() {
           justifyContent: "center",
           gap: "8px",
           padding: "16px 24px",
-          background: "#1e1b18",
-          borderBottom: "1px solid #2a2520",
+          background: "#2E2F33",
+          borderBottom: "1px solid #2E2E2E",
         }}
       >
         {[
@@ -600,18 +646,19 @@ export default function Playbook() {
             style={{
               background:
                 activeTab === tab.id
-                  ? "rgba(139,115,85,0.25)"
+                  ? "#0F5FFE"
                   : "transparent",
               border:
                 activeTab === tab.id
-                  ? "1px solid #8b7355"
+                  ? "1px solid #0F5FFE"
                   : "1px solid transparent",
-              color: activeTab === tab.id ? "#e8d5b7" : "#8b7355",
-              borderRadius: "6px",
-              padding: "6px 16px",
+              color: activeTab === tab.id ? "#F5F5F5" : "#A0A6B2",
+              borderRadius: "0",
+              padding: "10px 16px",
               cursor: "pointer",
-              fontSize: "13px",
-              fontFamily: "monospace",
+              fontSize: "14px",
+              fontFamily: "'Roboto', sans-serif",
+              fontWeight: "500",
               transition: "all 0.2s",
             }}
           >
@@ -628,8 +675,8 @@ export default function Playbook() {
             style={{
               width: "220px",
               minWidth: "220px",
-              background: "#1e1b18",
-              borderRight: "1px solid #2a2520",
+              background: "#2E2F33",
+              borderRight: "1px solid #2E2E2E",
               padding: "12px 8px",
               overflowY: "auto",
             }}
@@ -644,13 +691,17 @@ export default function Playbook() {
                   textAlign: "left",
                   background:
                     activePhase === phase.id
-                      ? `${phase.color}15`
+                      ? "#1F1F1F"
                       : "transparent",
                   border:
                     activePhase === phase.id
-                      ? `1px solid ${phase.accent}50`
+                      ? "1px solid #0F5FFE"
                       : "1px solid transparent",
-                  borderRadius: "8px",
+                  borderLeft:
+                    activePhase === phase.id
+                      ? "2px solid #0F5FFE"
+                      : "2px solid transparent",
+                  borderRadius: "0",
                   padding: "10px 12px",
                   cursor: "pointer",
                   marginBottom: "4px",
@@ -669,19 +720,20 @@ export default function Playbook() {
                     <div
                       style={{
                         color:
-                          activePhase === phase.id ? phase.color : "#c4b99a",
+                          activePhase === phase.id ? "#0F5FFE" : "#A0A6B2",
                         fontSize: "13px",
                         fontWeight: "bold",
-                        fontFamily: "monospace",
+                        fontFamily: "'Roboto Mono', monospace",
                       }}
                     >
                       {phase.title}
                     </div>
                     <div
                       style={{
-                        color: "#6b6055",
+                        color: "#A0A6B2",
                         fontSize: "10px",
                         marginTop: "2px",
+                        fontFamily: "'Roboto', sans-serif",
                       }}
                     >
                       {phase.subtitle}
@@ -720,8 +772,9 @@ export default function Playbook() {
                         style={{
                           margin: 0,
                           fontSize: "22px",
-                          fontWeight: "normal",
-                          color: phase.color,
+                          fontWeight: "500",
+                          color: "#0F5FFE",
+                          fontFamily: "'Roboto', sans-serif",
                         }}
                       >
                         {phase.title}
@@ -729,9 +782,9 @@ export default function Playbook() {
                       <p
                         style={{
                           margin: 0,
-                          color: "#8b7355",
+                          color: "#A0A6B2",
                           fontSize: "13px",
-                          fontStyle: "italic",
+                          fontFamily: "'Roboto', sans-serif",
                         }}
                       >
                         {phase.subtitle}
@@ -745,10 +798,10 @@ export default function Playbook() {
                         <div
                           key={idx}
                           style={{
-                            background: "rgba(139,115,85,0.12)",
-                            border: "1px solid #3a3530",
-                            borderLeft: "3px solid #8b7355",
-                            borderRadius: "6px",
+                            background: "#3C4352",
+                            border: "1px solid #2E2E2E",
+                            borderLeft: "2px solid #B2CCFF",
+                            borderRadius: "0",
                             padding: "14px 16px",
                             marginBottom: "20px",
                           }}
@@ -756,9 +809,10 @@ export default function Playbook() {
                           <p
                             style={{
                               margin: 0,
-                              color: "#c4b99a",
-                              fontSize: "13px",
-                              lineHeight: 1.6,
+                              color: "#B2CCFF",
+                              fontSize: "14px",
+                              lineHeight: 1.5,
+                              fontFamily: "'Roboto', sans-serif",
                             }}
                           >
                             {block.text}
@@ -770,13 +824,14 @@ export default function Playbook() {
                         <h3
                           key={idx}
                           style={{
-                            color: "#e8d5b7",
-                            fontSize: "16px",
-                            fontWeight: "normal",
-                            borderBottom: "1px solid #2a2520",
+                            color: "#F5F5F5",
+                            fontSize: "18px",
+                            fontWeight: "500",
+                            borderBottom: "1px solid #2E2E2E",
                             paddingBottom: "6px",
                             marginTop: "24px",
                             marginBottom: "12px",
+                            fontFamily: "'Roboto', sans-serif",
                           }}
                         >
                           {block.text}
@@ -787,10 +842,11 @@ export default function Playbook() {
                         <p
                           key={idx}
                           style={{
-                            color: "#b0a490",
-                            fontSize: "13px",
-                            lineHeight: 1.7,
+                            color: "#A0A6B2",
+                            fontSize: "14px",
+                            lineHeight: 1.5,
                             margin: "0 0 16px",
+                            fontFamily: "'Roboto', sans-serif",
                           }}
                         >
                           {block.text}
@@ -811,9 +867,9 @@ export default function Playbook() {
                             >
                               <span
                                 style={{
-                                  color: "#8b7355",
+                                  color: "#0F5FFE",
                                   marginTop: "2px",
-                                  fontSize: "12px",
+                                  fontSize: "14px",
                                   flexShrink: 0,
                                 }}
                               >
@@ -821,9 +877,10 @@ export default function Playbook() {
                               </span>
                               <span
                                 style={{
-                                  color: "#b0a490",
-                                  fontSize: "13px",
+                                  color: "#A0A6B2",
+                                  fontSize: "14px",
                                   lineHeight: 1.5,
+                                  fontFamily: "'Roboto', sans-serif",
                                 }}
                               >
                                 {item}
@@ -837,47 +894,57 @@ export default function Playbook() {
                         <div
                           key={idx}
                           style={{
-                            background: "#1a1714",
-                            border: "1px solid #3a3530",
-                            borderRadius: "8px",
+                            background: "#252629",
+                            border: "1px solid #2E2E2E",
+                            borderRadius: "0",
                             marginBottom: "16px",
                             overflow: "hidden",
                           }}
                         >
                           <div
                             style={{
-                              background: "#252018",
+                              background: "#2E2F33",
                               padding: "8px 14px",
-                              borderBottom: "1px solid #3a3530",
+                              borderBottom: "1px solid #2E2E2E",
                               display: "flex",
                               alignItems: "center",
-                              gap: "6px",
+                              justifyContent: "space-between",
+                              gap: "12px",
                             }}
                           >
-                            <span style={{ color: "#8b7355", fontSize: "11px" }}>
-                              💬
-                            </span>
-                            <span
+                            <div
                               style={{
-                                color: "#8b7355",
-                                fontSize: "11px",
-                                fontFamily: "monospace",
-                                letterSpacing: "1px",
-                                textTransform: "uppercase",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "6px",
                               }}
                             >
-                              {block.label}
-                            </span>
+                              <span style={{ color: "#B2CCFF", fontSize: "11px" }}>
+                                💬
+                              </span>
+                              <span
+                                style={{
+                                  color: "#B2CCFF",
+                                  fontSize: "11px",
+                                  fontFamily: "'Roboto Mono', monospace",
+                                  letterSpacing: "1px",
+                                  textTransform: "uppercase",
+                                }}
+                              >
+                                {block.label}
+                              </span>
+                            </div>
+                            <CopyButton text={block.text} />
                           </div>
                           <pre
                             style={{
                               margin: 0,
                               padding: "14px 16px",
-                              color: "#c4b99a",
-                              fontSize: "12.5px",
-                              lineHeight: 1.7,
+                              color: "#A0A6B2",
+                              fontSize: "13px",
+                              lineHeight: 1.5,
                               whiteSpace: "pre-wrap",
-                              fontFamily: "monospace",
+                              fontFamily: "'Roboto Mono', monospace",
                             }}
                           >
                             {block.text}
@@ -889,56 +956,65 @@ export default function Playbook() {
                         <div
                           key={idx}
                           style={{
-                            background: "#151310",
-                            border: "1px solid #2a2520",
-                            borderRadius: "8px",
+                            background: "#1F1F1F",
+                            border: "1px solid #2E2E2E",
+                            borderRadius: "0",
                             marginBottom: "16px",
                             overflow: "hidden",
                           }}
                         >
                           <div
                             style={{
-                              background: "#1a1714",
+                              background: "#252629",
                               padding: "6px 14px",
-                              borderBottom: "1px solid #2a2520",
+                              borderBottom: "1px solid #2E2E2E",
                               display: "flex",
-                              gap: "6px",
+                              alignItems: "center",
+                              justifyContent: "space-between",
                             }}
                           >
-                            <span
+                            <div
                               style={{
-                                width: "8px",
-                                height: "8px",
-                                borderRadius: "50%",
-                                background: "#7a3c3c",
+                                display: "flex",
+                                gap: "6px",
                               }}
-                            />
-                            <span
-                              style={{
-                                width: "8px",
-                                height: "8px",
-                                borderRadius: "50%",
-                                background: "#7a6a3c",
-                              }}
-                            />
-                            <span
-                              style={{
-                                width: "8px",
-                                height: "8px",
-                                borderRadius: "50%",
-                                background: "#3c7a45",
-                              }}
-                            />
+                            >
+                              <span
+                                style={{
+                                  width: "8px",
+                                  height: "8px",
+                                  borderRadius: "50%",
+                                  background: "#A62911",
+                                }}
+                              />
+                              <span
+                                style={{
+                                  width: "8px",
+                                  height: "8px",
+                                  borderRadius: "50%",
+                                  background: "#F5E1CE",
+                                }}
+                              />
+                              <span
+                                style={{
+                                  width: "8px",
+                                  height: "8px",
+                                  borderRadius: "50%",
+                                  background: "#D1F0C9",
+                                }}
+                              />
+                            </div>
+                            <CopyButton text={block.text} />
                           </div>
                           <pre
                             style={{
                               margin: 0,
                               padding: "14px 16px",
-                              color: "#8fbc8f",
-                              fontSize: "12px",
-                              lineHeight: 1.7,
+                              color: "#D1F0C9",
+                              fontSize: "13px",
+                              lineHeight: 1.5,
                               whiteSpace: "pre-wrap",
-                              fontFamily: "monospace",
+                              fontFamily: "'Roboto Mono', monospace",
                             }}
                           >
                             {block.text}
@@ -950,9 +1026,10 @@ export default function Playbook() {
                         <div
                           key={idx}
                           style={{
-                            background: "rgba(60,122,69,0.12)",
-                            border: "1px solid rgba(60,122,69,0.3)",
-                            borderRadius: "6px",
+                            background: "#4A4E49",
+                            border: "1px solid #D1F0C9",
+                            borderLeft: "2px solid #D1F0C9",
+                            borderRadius: "0",
                             padding: "12px 16px",
                             marginTop: "24px",
                             marginBottom: "8px",
@@ -961,9 +1038,10 @@ export default function Playbook() {
                           <p
                             style={{
                               margin: 0,
-                              color: "#8fbc8f",
-                              fontSize: "13px",
-                              fontWeight: "bold",
+                              color: "#D1F0C9",
+                              fontSize: "14px",
+                              fontWeight: "500",
+                              fontFamily: "'Roboto', sans-serif",
                             }}
                           >
                             ✓ {block.text}
@@ -984,11 +1062,11 @@ export default function Playbook() {
         <div style={{ padding: "24px 28px", maxWidth: "780px", margin: "0 auto" }}>
           <p
             style={{
-              color: "#8b7355",
-              fontSize: "13px",
-              fontStyle: "italic",
+              color: "#A0A6B2",
+              fontSize: "14px",
               marginTop: 0,
               marginBottom: "24px",
+              fontFamily: "'Roboto', sans-serif",
             }}
           >
             When to use which tool — the routing decisions that make or break your
@@ -998,18 +1076,18 @@ export default function Playbook() {
             <div
               key={i}
               style={{
-                background: "#1e1b18",
-                border: "1px solid #2a2520",
-                borderRadius: "10px",
+                background: "#1F1F1F",
+                border: "1px solid #2E2E2E",
+                borderRadius: "0",
                 marginBottom: "16px",
                 overflow: "hidden",
               }}
             >
               <div
                 style={{
-                  background: "#252018",
+                  background: "#2E2F33",
                   padding: "14px 18px",
-                  borderBottom: "1px solid #2a2520",
+                  borderBottom: "1px solid #2E2E2E",
                   display: "flex",
                   alignItems: "center",
                   gap: "10px",
@@ -1019,22 +1097,23 @@ export default function Playbook() {
                 <div>
                   <div
                     style={{
-                      color: "#e8d5b7",
+                      color: "#F5F5F5",
                       fontSize: "16px",
-                      fontWeight: "bold",
+                      fontWeight: "500",
+                      fontFamily: "'Roboto', sans-serif",
                     }}
                   >
                     {tool.tool}
                   </div>
                 </div>
               </div>
-              <div style={{ padding: "14px 18px" }}>
+              <div style={{ padding: "14px 18px", background: "#1F1F1F" }}>
                 <div style={{ marginBottom: "10px" }}>
                   <span
                     style={{
-                      color: "#3c7a45",
+                      color: "#D1F0C9",
                       fontSize: "11px",
-                      fontFamily: "monospace",
+                      fontFamily: "'Roboto Mono', monospace",
                       letterSpacing: "1px",
                       textTransform: "uppercase",
                     }}
@@ -1043,9 +1122,10 @@ export default function Playbook() {
                   </span>
                   <p
                     style={{
-                      color: "#b0a490",
-                      fontSize: "13px",
+                      color: "#A0A6B2",
+                      fontSize: "14px",
                       margin: "4px 0 0",
+                      fontFamily: "'Roboto', sans-serif",
                     }}
                   >
                     {tool.when}
@@ -1054,9 +1134,9 @@ export default function Playbook() {
                 <div style={{ marginBottom: "12px" }}>
                   <span
                     style={{
-                      color: "#7a3c3c",
+                      color: "#F5C4CC",
                       fontSize: "11px",
-                      fontFamily: "monospace",
+                      fontFamily: "'Roboto Mono', monospace",
                       letterSpacing: "1px",
                       textTransform: "uppercase",
                     }}
@@ -1065,9 +1145,10 @@ export default function Playbook() {
                   </span>
                   <p
                     style={{
-                      color: "#8b7355",
-                      fontSize: "13px",
+                      color: "#A0A6B2",
+                      fontSize: "14px",
                       margin: "4px 0 0",
+                      fontFamily: "'Roboto', sans-serif",
                     }}
                   >
                     {tool.notWhen}
@@ -1075,15 +1156,15 @@ export default function Playbook() {
                 </div>
                 <div
                   style={{
-                    borderTop: "1px solid #2a2520",
+                    borderTop: "1px solid #2E2E2E",
                     paddingTop: "12px",
                   }}
                 >
                   <span
                     style={{
-                      color: "#8b7355",
+                      color: "#A0A6B2",
                       fontSize: "11px",
-                      fontFamily: "monospace",
+                      fontFamily: "'Roboto Mono', monospace",
                       letterSpacing: "1px",
                       textTransform: "uppercase",
                     }}
@@ -1102,9 +1183,9 @@ export default function Playbook() {
                     >
                       <span
                         style={{
-                          color: "#8b7355",
+                          color: "#0F5FFE",
                           marginTop: "2px",
-                          fontSize: "10px",
+                          fontSize: "12px",
                           flexShrink: 0,
                         }}
                       >
@@ -1112,9 +1193,10 @@ export default function Playbook() {
                       </span>
                       <span
                         style={{
-                          color: "#b0a490",
-                          fontSize: "12.5px",
+                          color: "#A0A6B2",
+                          fontSize: "13px",
                           lineHeight: 1.5,
+                          fontFamily: "'Roboto', sans-serif",
                         }}
                       >
                         {tip}
@@ -1133,11 +1215,11 @@ export default function Playbook() {
         <div style={{ padding: "24px 28px", maxWidth: "780px", margin: "0 auto" }}>
           <p
             style={{
-              color: "#8b7355",
-              fontSize: "13px",
-              fontStyle: "italic",
+              color: "#A0A6B2",
+              fontSize: "14px",
               marginTop: 0,
               marginBottom: "8px",
+              fontFamily: "'Roboto', sans-serif",
             }}
           >
             Subagents run in isolated context windows. They prevent context rot
@@ -1147,8 +1229,8 @@ export default function Playbook() {
 
           <div
             style={{
-              background: "#1e1b18",
-              border: "1px solid #2a2520",
+              background: "#1F1F1F",
+              border: "1px solid #2E2E2E",
               borderRadius: "8px",
               padding: "16px",
               marginBottom: "24px",
@@ -1162,7 +1244,7 @@ export default function Playbook() {
                 lineHeight: 1.8,
               }}
             >
-              <div style={{ color: "#8b7355", marginBottom: "4px" }}>
+              <div style={{ color: "#A0A6B2", marginBottom: "4px" }}>
                 // How to invoke subagents in your prompt:
               </div>
               <div>
@@ -1185,8 +1267,8 @@ export default function Playbook() {
             <div
               key={i}
               style={{
-                background: "#1e1b18",
-                border: "1px solid #2a2520",
+                background: "#1F1F1F",
+                border: "1px solid #2E2E2E",
                 borderRadius: "10px",
                 marginBottom: "16px",
                 overflow: "hidden",
@@ -1196,12 +1278,12 @@ export default function Playbook() {
                 style={{
                   background: "#252018",
                   padding: "12px 18px",
-                  borderBottom: "1px solid #2a2520",
+                  borderBottom: "1px solid #2E2E2E",
                 }}
               >
                 <span
                   style={{
-                    color: "#e8d5b7",
+                    color: "#F5F5F5",
                     fontSize: "15px",
                     fontWeight: "bold",
                   }}
@@ -1222,7 +1304,7 @@ export default function Playbook() {
                   >
                     <span
                       style={{
-                        color: "#8b7355",
+                        color: "#A0A6B2",
                         marginTop: "2px",
                         fontSize: "12px",
                         flexShrink: 0,
@@ -1248,8 +1330,8 @@ export default function Playbook() {
           {/* Thinking Levels */}
           <div
             style={{
-              background: "#1e1b18",
-              border: "1px solid #2a2520",
+              background: "#1F1F1F",
+              border: "1px solid #2E2E2E",
               borderRadius: "10px",
               marginTop: "24px",
               overflow: "hidden",
@@ -1259,12 +1341,12 @@ export default function Playbook() {
               style={{
                 background: "#252018",
                 padding: "12px 18px",
-                borderBottom: "1px solid #2a2520",
+                borderBottom: "1px solid #2E2E2E",
               }}
             >
               <span
                 style={{
-                  color: "#e8d5b7",
+                  color: "#F5F5F5",
                   fontSize: "15px",
                   fontWeight: "bold",
                 }}
@@ -1275,7 +1357,7 @@ export default function Playbook() {
             <div style={{ padding: "16px 18px" }}>
               <p
                 style={{
-                  color: "#8b7355",
+                  color: "#A0A6B2",
                   fontSize: "12px",
                   marginTop: 0,
                   marginBottom: "12px",
@@ -1330,7 +1412,7 @@ export default function Playbook() {
                     {level.word}
                   </span>
                   <span
-                    style={{ color: "#8b7355", fontSize: "12px" }}
+                    style={{ color: "#A0A6B2", fontSize: "12px" }}
                   >
                     {level.depth}
                   </span>
@@ -1344,18 +1426,18 @@ export default function Playbook() {
       {/* Footer */}
       <div
         style={{
-          borderTop: "1px solid #2a2520",
+          borderTop: "1px solid #2E2E2E",
           padding: "16px 24px",
           textAlign: "center",
-          background: "#1a1714",
+          background: "#2E2F33",
         }}
       >
         <p
           style={{
-            color: "#6b6055",
+            color: "#A0A6B2",
             fontSize: "12px",
             margin: 0,
-            fontFamily: "monospace",
+            fontFamily: "'Roboto Mono', monospace",
           }}
         >
           TW = DW — Team Work makes the Dream Work
