@@ -568,6 +568,77 @@ const subAgentGuide = [
   },
 ];
 
+const frameworkGuide = [
+  {
+    icon: "📄",
+    title: "Plain HTML/CSS or Vite + React",
+    bestFor: "Static Website (No Backend Needed)",
+    why: [
+      "Simple, fast, free hosting options",
+      "No server or database required",
+      "Just showing information to visitors"
+    ],
+    useWhen: [
+      "Portfolio site, landing page, blog",
+      "No user accounts, no database",
+      "Content doesn't change based on who's viewing"
+    ],
+    railway: [
+      "Static sites work on Railway but you'll pay for hosting",
+      "Better options: Netlify, Vercel, GitHub Pages (all free for static)",
+      "Save Railway for apps that need a backend"
+    ],
+    examples: "Personal portfolio, restaurant menu, documentation site, company 'about us' page"
+  },
+  {
+    icon: "🚀",
+    title: "Next.js 17 + Supabase",
+    bestFor: "Simple Full-Stack App (Basic Backend)",
+    why: [
+      "Everything in one place - frontend and backend together",
+      "Railway auto-detects Next.js with ZERO config",
+      "Supabase gives you a database + auth in 5 minutes",
+      "This is the playbook's primary recommended stack"
+    ],
+    useWhen: [
+      "Need user login and a database",
+      "Building a todo app, simple SaaS, internal tool",
+      "Want to ship fast without configuring servers"
+    ],
+    railway: [
+      "Railway auto-detects Next.js → npm run build → npm start",
+      "Just connect your GitHub repo and go",
+      "Add Supabase env vars in Railway dashboard",
+      "This is what Phase 6 of the playbook covers"
+    ],
+    examples: "Task manager, booking system, feedback collector, simple CRM"
+  },
+  {
+    icon: "🏢",
+    title: "Angular 17+ + Supabase",
+    bestFor: "Complex Enterprise App (Big Team, Many Features)",
+    why: [
+      "Built for large teams working on the same codebase",
+      "Strong patterns keep code organized as it grows",
+      "TypeScript everywhere prevents bugs",
+      "Better for complex forms and admin dashboards"
+    ],
+    useWhen: [
+      "Multiple developers working together",
+      "Complex forms, dashboards, admin panels",
+      "Need strict rules and code organization",
+      "Enterprise features and scalability matter"
+    ],
+    railway: [
+      "Railway supports Angular but needs manual config",
+      "Update package.json: set 'start' to 'node dist/YOUR-APP-NAME/server/server.mjs'",
+      "See Phase 6 → Step 6.1 in the playbook for the exact Railway setup",
+      "Prelude phase covers this in the tech stack decision"
+    ],
+    examples: "CRM system, inventory management, HR portal, multi-tenant SaaS"
+  }
+];
+
 export default function Playbook() {
   const [activePhase, setActivePhase] = useState("prelude");
   const [activeTab, setActiveTab] = useState("phases");
@@ -637,6 +708,7 @@ export default function Playbook() {
       >
         {[
           { id: "phases", label: "📍 Phases" },
+          { id: "frameworks", label: "🎯 Framework Guide" },
           { id: "tools", label: "🛠️ Tool Guide" },
           { id: "subagents", label: "🤖 Sub-Agents" },
         ].map((tab) => (
@@ -1418,6 +1490,309 @@ export default function Playbook() {
                   </span>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Choose Framework Tab */}
+      {activeTab === "frameworks" && (
+        <div style={{ padding: "24px 28px", maxWidth: "780px", margin: "0 auto" }}>
+          <p
+            style={{
+              color: "#A0A6B2",
+              fontSize: "14px",
+              marginTop: 0,
+              marginBottom: "24px",
+              fontFamily: "'Roboto', sans-serif",
+            }}
+          >
+            Not sure which framework to pick? Start here. This guide is based on what you're actually building — not technical jargon. All options deploy to Railway.
+          </p>
+
+          {frameworkGuide.map((framework, i) => (
+            <div
+              key={i}
+              style={{
+                background: "#1F1F1F",
+                border: "1px solid #2E2E2E",
+                borderRadius: "0",
+                marginBottom: "16px",
+                overflow: "hidden",
+              }}
+            >
+              <div
+                style={{
+                  background: "#2E2F33",
+                  padding: "14px 18px",
+                  borderBottom: "1px solid #2E2E2E",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
+                <span style={{ fontSize: "22px" }}>{framework.icon}</span>
+                <div style={{ flex: 1 }}>
+                  <div
+                    style={{
+                      color: "#F5F5F5",
+                      fontSize: "16px",
+                      fontWeight: "500",
+                      fontFamily: "'Roboto', sans-serif",
+                      marginBottom: "6px",
+                    }}
+                  >
+                    {framework.title}
+                  </div>
+                  <div
+                    style={{
+                      background: "#4A4E49",
+                      color: "#D1F0C9",
+                      fontSize: "11px",
+                      padding: "4px 8px",
+                      display: "inline-block",
+                      fontFamily: "'Roboto Mono', monospace",
+                      borderRadius: "2px",
+                    }}
+                  >
+                    Best For: {framework.bestFor}
+                  </div>
+                </div>
+              </div>
+              <div style={{ padding: "14px 18px", background: "#1F1F1F" }}>
+                <div style={{ marginBottom: "12px" }}>
+                  <span
+                    style={{
+                      color: "#B2CCFF",
+                      fontSize: "11px",
+                      fontFamily: "'Roboto Mono', monospace",
+                      letterSpacing: "1px",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Why This Stack
+                  </span>
+                  {framework.why.map((item, j) => (
+                    <div
+                      key={j}
+                      style={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: "8px",
+                        padding: "4px 0",
+                      }}
+                    >
+                      <span
+                        style={{
+                          color: "#0F5FFE",
+                          marginTop: "2px",
+                          fontSize: "12px",
+                          flexShrink: 0,
+                        }}
+                      >
+                        →
+                      </span>
+                      <span
+                        style={{
+                          color: "#A0A6B2",
+                          fontSize: "13px",
+                          lineHeight: 1.5,
+                          fontFamily: "'Roboto', sans-serif",
+                        }}
+                      >
+                        {item}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ marginBottom: "12px" }}>
+                  <span
+                    style={{
+                      color: "#B2CCFF",
+                      fontSize: "11px",
+                      fontFamily: "'Roboto Mono', monospace",
+                      letterSpacing: "1px",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Use When
+                  </span>
+                  {framework.useWhen.map((item, j) => (
+                    <div
+                      key={j}
+                      style={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: "8px",
+                        padding: "4px 0",
+                      }}
+                    >
+                      <span
+                        style={{
+                          color: "#0F5FFE",
+                          marginTop: "2px",
+                          fontSize: "12px",
+                          flexShrink: 0,
+                        }}
+                      >
+                        →
+                      </span>
+                      <span
+                        style={{
+                          color: "#A0A6B2",
+                          fontSize: "13px",
+                          lineHeight: 1.5,
+                          fontFamily: "'Roboto', sans-serif",
+                        }}
+                      >
+                        {item}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ marginBottom: "12px" }}>
+                  <span
+                    style={{
+                      color: "#B2CCFF",
+                      fontSize: "11px",
+                      fontFamily: "'Roboto Mono', monospace",
+                      letterSpacing: "1px",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Deploy to Railway
+                  </span>
+                  {framework.railway.map((item, j) => (
+                    <div
+                      key={j}
+                      style={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: "8px",
+                        padding: "4px 0",
+                      }}
+                    >
+                      <span
+                        style={{
+                          color: "#0F5FFE",
+                          marginTop: "2px",
+                          fontSize: "12px",
+                          flexShrink: 0,
+                        }}
+                      >
+                        →
+                      </span>
+                      <span
+                        style={{
+                          color: "#A0A6B2",
+                          fontSize: "13px",
+                          lineHeight: 1.5,
+                          fontFamily: "'Roboto', sans-serif",
+                        }}
+                      >
+                        {item}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                <div
+                  style={{
+                    borderTop: "1px solid #2E2E2E",
+                    paddingTop: "12px",
+                  }}
+                >
+                  <span
+                    style={{
+                      color: "#A0A6B2",
+                      fontSize: "11px",
+                      fontFamily: "'Roboto Mono', monospace",
+                      letterSpacing: "1px",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Examples
+                  </span>
+                  <p
+                    style={{
+                      color: "#A0A6B2",
+                      fontSize: "13px",
+                      fontStyle: "italic",
+                      margin: "4px 0 0",
+                      fontFamily: "'Roboto', sans-serif",
+                    }}
+                  >
+                    {framework.examples}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {/* Decision Tree */}
+          <div
+            style={{
+              background: "#1F1F1F",
+              border: "1px solid #2E2E2E",
+              borderRadius: "0",
+              marginTop: "24px",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                background: "#2E2F33",
+                padding: "14px 18px",
+                borderBottom: "1px solid #2E2E2E",
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+              }}
+            >
+              <span style={{ fontSize: "22px" }}>🌳</span>
+              <div
+                style={{
+                  color: "#F5F5F5",
+                  fontSize: "16px",
+                  fontWeight: "500",
+                  fontFamily: "'Roboto', sans-serif",
+                }}
+              >
+                Quick Decision Tree
+              </div>
+            </div>
+            <div style={{ padding: "14px 18px", background: "#1F1F1F" }}>
+              <pre
+                style={{
+                  margin: 0,
+                  padding: "14px 16px",
+                  color: "#D1F0C9",
+                  fontSize: "13px",
+                  lineHeight: 1.8,
+                  whiteSpace: "pre-wrap",
+                  fontFamily: "'Roboto Mono', monospace",
+                  background: "#252629",
+                  border: "1px solid #2E2E2E",
+                  borderRadius: "0",
+                }}
+              >
+{`Do you need a backend/database?
+
+├─ NO → Plain HTML or Vite + React
+│        Static site (use Netlify/Vercel, not Railway)
+│
+└─ YES → Do you need complex features?
+    │
+    ├─ NO → Next.js 17 + Supabase ⭐ RECOMMENDED
+    │        Railway auto-detects everything
+    │        This is what the playbook teaches
+    │
+    └─ YES → Angular 17+ + Supabase
+             Railway supported (manual package.json config)
+             See Prelude & Phase 6 for setup`}
+              </pre>
             </div>
           </div>
         </div>
